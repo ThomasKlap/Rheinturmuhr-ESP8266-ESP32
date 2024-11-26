@@ -33,11 +33,7 @@ _______________________________________________
 #include <Adafruit_NeoPixel.h>
 
 
-<<<<<<< HEAD
 #define NeoPixelPin   2 // 
-=======
-#define NeoPixelPin   16 // 
->>>>>>> f6366cc6104bd5db9154dc84118dc00760332fa6
 #define NUMPIXELS 86 // how many neopixels where attached
 
 unsigned long PosMillisP = 0; // time counter for position lights with millis() function
@@ -107,41 +103,42 @@ unsigned long currentMillis = millis(); // Aktuelle Zeit wird in currentMillis g
 
 void show_out(int sec, int min, int hrs) //Ausgabe der Zeitanzeige zum Turm
 {
-  // shiftout_light (0, 11, emptyR, emptyG, emptyB); // die ersten 11 Stellen Trenner in Gelb
+  shiftout_light (0, 11, emptyR, emptyG, emptyB); // die ersten 11 Stellen Trenner in Gelb
   
   //sekunden Einerstelle ausgeben
   tempNPX = sec % 10 ;
-  shiftout_bits(0, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  shiftout_bits(11, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
   // Trennstelle ausgeben
-  shiftout_light(9, 1, spaceR, spaceG, spaceB); // einzelne Lampe
+  shiftout_light(20, 1, spaceR, spaceG, spaceB); // einzelne Lampe
   //sekunden Zehnerstelle ausgeben
   tempNPX =  sec/ 10 ;
-  shiftout_bits(10, 5, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  shiftout_bits(21, 5, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
 
   // Trennstellen ausgeben
-  shiftout_light(15, 2, spaceR, spaceG, spaceB); // einzelne
+  shiftout_light(26, 2, spaceR, spaceG, spaceB); // einzelne
 
   //minutenen Einerstelle ausgeben
   tempNPX = min % 10 ;
-  shiftout_bits(17, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  shiftout_bits(28, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
   // Trennstelle ausgeben
-  shiftout_light(26, 1, spaceR, spaceG, spaceB); // einzelne Lampe
+  shiftout_light(37, 1, spaceR, spaceG, spaceB); // einzelne Lampe
   //minuten Zehnerstelle ausgeben
   tempNPX = min / 10 ;
-  shiftout_bits(27, 5, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  shiftout_bits(38, 5, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
 
   // Trennstelle ausgeben
-  shiftout_light(32, 2, spaceR, spaceG, spaceB); // einzelne
+  shiftout_light(43, 2, spaceR, spaceG, spaceB); // einzelne
   //stunden Einerstelle ausgeben
   tempNPX = hrs % 10 ;
-  shiftout_bits(34, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  shiftout_bits(45, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
   // Trennstelle ausgeben
-  shiftout_light(43, 1, spaceR, spaceG, spaceB); // einzelne Lampe
+  shiftout_light(54, 1, spaceR, spaceG, spaceB); // einzelne Lampe
   //stunden Zehnerstelle ausgeben
   tempNPX = hrs / 10 ;
-  shiftout_bits(44, 2, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
- 
-  shiftout_light(46,5,restR, restG, restB); // Resttaurantbeleuchtung
+  shiftout_bits(55, 2, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  // Leere Stellen ausgeben
+  shiftout_light(57, 5, emptyR, emptyG, emptyB); // fuenf Trennstellen
+  shiftout_light(62,12,restR, restG, restB); // Resttaurantbeleuchtung
   
-  pos_light (51,1,spaceR, spaceG, spaceB); 
+  pos_light (75,8,restR, restG, restB); 
 }
