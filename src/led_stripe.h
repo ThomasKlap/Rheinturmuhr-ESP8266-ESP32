@@ -4,8 +4,8 @@ Adresse 0-10 ohne Funktion, standard Gelb
 Adresse 11-20 Sekunden 1" Stelle
 .....
 */
-int emptyR =15; //Leere Segmente
-int emptyG =15;
+int emptyR =7; //Leere Segmente
+int emptyG =7;
 int emptyB =0;
 
 int spaceR =20; // Trenner
