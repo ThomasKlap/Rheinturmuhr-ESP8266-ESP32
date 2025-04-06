@@ -1,5 +1,9 @@
 {
-  "name": "Rheinturm Uhr V6-01",
+  "name": "Rheinturm Uhr",
+  "version": "2025.04.07",
+  "home_assistant_domain": "esphome",
+  "funding_url": "https://esphome.io/guides/supporters.html",
+  "new_install_prompt_erase": true,
   "builds": [
         {
       "chipFamily": "ESP8266",
