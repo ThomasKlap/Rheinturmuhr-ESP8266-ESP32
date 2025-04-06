@@ -1,5 +1,5 @@
 {
-  "name": "ESPHome",
+  "name": "Rheinturm Uhr V6-01",
   "builds": [
     {
       "chipFamily": "ESP32",
