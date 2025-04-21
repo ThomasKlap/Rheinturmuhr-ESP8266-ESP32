@@ -16,7 +16,7 @@ Die Positionsleuchten ringsum sind für 2mm Leds vorgesehen, welche dort eingekl
 Ich verwende für die Projekte einen Wemos D1mini mit ESP8266 Prozessor.  
 Für den Anschluss wird ein 470 Ohm Widerstand empfohlen, um die Neopixel vor Spannungsspitzen zu schützen.
 
-![Schaltplan](wiring WemosD1-mini.png)
+![Schaltplan](https://github.com/ThomasKlap/Rheinturmuhr-ESP8266-ESP32/blob/main/wiring%20WemosD1-mini.png)
 
 
 Das Programm ist für einen Wemos D1 Mini kompiliert und kann aus dem Browser [Google Chrome oder Microsoft Edge] mittels ESP-WebTools installiert werden.  
