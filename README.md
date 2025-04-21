@@ -3,7 +3,7 @@
 Lichtzeitpegel ist die Bezeichnung der Uhrenlichtskulptur des Künstlers Horst H. Baumann am Düsseldorfer Rheinturm. Sie wurde am 24. November 1981 in Betrieb genommen und ist gemäß dem Guinness-Buch der Rekorde die größte dezimale „Zeitskala“ der Welt.[1] Die Uhr wird auch als Dezimaluhr bezeichnet, obwohl der „Lichtzeitpegel“ die klassische 24-Stunden-Uhrzeit anzeigt und die Ziffern im Unärsystem dargestellt werden.  
 [Quelle: Wikipedia, [Lichtzeitpegel]( de.wikipedia.org/wiki/Lichtzeitpegel )] 
 
-![Bild](https://github.com/ThomasKlap/Rheinturmuhr-ESP8266-ESP32/blob/main/wiring%20WemosD1-mini.png)
+![Bild](https://github.com/ThomasKlap/Rheinturmuhr-ESP8266-ESP32/blob/main/Rheinturm_v19.png)
 
 Die Bauteile, als .stl Files für den 3D Druck, liegen im Ordner Parts.  
 Ich habe den Turm schon mehrfach in unterschiedlichen Farben PLA gedruckt.    
