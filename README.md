@@ -12,7 +12,7 @@ Das Fenster oben im Restaurant sollte transparent gedruckt werden, da es von inn
 Alternativ kann auch eine M4 Gewindestange direkt in die Kunststoffteile eingeschraubt werden.
 
 Es wird ein 62 Elemente langer Neopixel Streifen, mit einer Dichte von 144px/m, verwendet.  
-Dieser kann komplett in die Aufmahme innerhalb des Schaftes eingeführt werden.
+Dieser kann komplett in die Aufnahme innerhalb des Schaftes eingeführt werden.
 Weitere Neopixel können oberhalb für das Restaurant verwendet werden.  
 Die Positionsleuchten ringsum sind für 2mm Leds vorgesehen, welche dort eingeklebt werden. 
 Ich verwende für die Projekte einen Wemos D1mini mit ESP8266 Prozessor.  
