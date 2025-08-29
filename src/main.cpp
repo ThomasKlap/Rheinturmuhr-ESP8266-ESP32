@@ -1,27 +1,12 @@
-#include <Arduino.h>
-#include <WiFiManager.h>
-#include <time.h>
-#include "led_stripe.h"
+#include <main.h> // move all definitions to separate header-include
 
-
-int lastMilis;
-int temp;
-unsigned long CycleMillis = 0; // speichert den Zeitpunkt des Letzten Zyklus
-const char *NTP_SERVER = "de.pool.ntp.org";
-const char *TZ_INFO = "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00";
-
-char wochentage[7][12] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
-String monat[12] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
-
-time_t now;
-tm tm;
 
 void setup()
 {
   Serial.begin(115200);
   WiFiManager wm;
   bool res;
-  res = wm.autoConnect("RheinturmUhr-V6-0-1", "123456789"); // password protected ap
+  res = wm.autoConnect(apSsid, apPwd); // password protected ap
   if (!res)
   {
     Serial.println("Failed to connect");
@@ -47,7 +32,7 @@ void loop()
 
   delay(50);
   CycleMillis = millis();
-  show_out(tm.tm_sec, tm.tm_min, tm.tm_hour);
+  show_out(tm.tm_sec, tm.tm_min, tm.tm_hour); // send lights to the NPX Stripe
   CycleMillis = millis() - CycleMillis;
   /*
   Serial.print("CycleTime: ");
