@@ -40,26 +40,44 @@ void shiftout_bits (int startpos, int bits, int value, int color_red, int color_
   return; // Funtion wieder verlassen
 }
 
-void pos_light(int startpos, int bits, int color_red, int color_green, int color_blue) //Anzeige der Positionsleuchten Blinkend
+
+// Funktion zur Anzeige der Restaurantlichter
+void rest_light(int startpos, int bits, int color_red, int color_green, int color_blue) //Anzeige der Restaurant LichterWechselnd
 {
 unsigned long currentMillis = millis(); // Aktuelle Zeit wird in currentMillis gespeichert
 
-  if (currentMillis - PosMillisP >= interval) { // Falls mehr als 1000 ms vergangen sind
+  if (currentMillis - RestMillis >= intervalRestMillis) { // Falls mehr als 1000 ms vergangen sind
       shiftout_light (startpos, bits, color_red, color_green, color_blue);
-      digitalWrite(26, HIGH); 
-      digitalWrite(27, LOW); 
+
   }
-  if (currentMillis - PosMillisP >= interval*2) { // Falls mehr als 1000 ms vergangen sind
-      shiftout_light (startpos, bits, 0, 0, 0);
-      digitalWrite(27, HIGH); 
-      digitalWrite(26, LOW);
-     PosMillisP = currentMillis;} // Zeitpunkt der letzten Schaltung wird festgehalten 
+  if (currentMillis - RestMillis >= intervalRestMillis*2) { // Falls mehr als 1000 ms vergangen sind
+      shiftout_light (startpos, bits, color_red/2, color_green/2, color_blue/2);
+     RestMillis = currentMillis;} // Zeitpunkt der letzten Schaltung wird festgehalten 
     
   pixels.show();   // Send the updated pixel colors to the hardware.
 }
 
+// Funktion zur Anzeige der Positionslichter
+void pos_light(int startpos, int bits, int color_red, int color_green, int color_blue) //Anzeige der Positionsleuchten Blinkend
+{
+unsigned long currentMillis = millis(); // Aktuelle Zeit wird in currentMillis gespeichert
 
-void show_out(int sec, int min, int hrs) //Ausgabe der Zeitanzeige zum Turm
+  if (currentMillis - PosMillis >= intervalPosMillis) { // Falls mehr als 1000 ms vergangen sind
+      shiftout_light (startpos, bits, color_red, color_green, color_blue);
+      digitalWrite(26, HIGH); 
+      digitalWrite(27, LOW); 
+  }
+  if (currentMillis - PosMillis >= intervalPosMillis*2) { // Falls mehr als 1000 ms vergangen sind
+      shiftout_light (startpos, bits, 0, 0, 0);
+      digitalWrite(27, HIGH); 
+      digitalWrite(26, LOW);
+     PosMillis = currentMillis;} // Zeitpunkt der letzten Schaltung wird festgehalten 
+    
+  pixels.show();   // Send the updated pixel colors to the hardware.
+}
+
+// Funktion zur Ausgabe der gesamten Anzeige zum Turm
+void show_out(int sec, int min, int hrs) 
 {
   shiftout_light (0, 11, emptyR, emptyG, emptyB); // die ersten 11 Stellen Trenner in Gelb
   
@@ -96,9 +114,10 @@ void show_out(int sec, int min, int hrs) //Ausgabe der Zeitanzeige zum Turm
   shiftout_bits(55, 2, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
   // Leere Stellen ausgeben
   shiftout_light(57, 5, emptyR, emptyG, emptyB); // fuenf Trennstellen
-  shiftout_light(62,12,restR, restG, restB); // Resttaurantbeleuchtung
+  // Restuarantbeleuchtung
+  rest_light(62,18,restR, restG, restB); // Restaurantbeleuchtung
   
-  pos_light (75,8,restR, restG, restB); 
+  // pos_light (75,8,restR, restG, restB); 
 }
 
 
@@ -140,18 +159,19 @@ delay(1000); // wait a wihle
 void loop()
 {
 
-  delay(50);
+  delay(100);
   CycleMillis = millis();
   show_out(tm.tm_sec, tm.tm_min, tm.tm_hour); // send lights to the NPX Stripe
   CycleMillis = millis() - CycleMillis;
-  /*
+  
   Serial.print("CycleTime: ");
-  Serial.println(CycleMillis);
-  */
-
+  Serial.print(CycleMillis);
+  Serial.print("\t");
+  
+  
   time(&now);             // Liest die aktuelle Zeit
   localtime_r(&now, &tm); // Beschreibt tm mit der aktuelle Zeit
-  Serial.printf("%02d-%02d-%04d \t", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
+  // Serial.printf("%02d-%02d-%04d \t", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900);
   // Serial.printf("%02d %s %04d \t", tm.tm_mday, monat[tm.tm_mon], tm.tm_year + 1900);  // Monat ausgeschrieben
 
   Serial.print(wochentage[tm.tm_wday]);
