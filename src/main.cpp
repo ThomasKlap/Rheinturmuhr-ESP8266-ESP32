@@ -1,9 +1,114 @@
 #include <main.h> // move all definitions to separate header-include
 
+void npx_start() 
+{ 
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+  pixels.clear(); // Set all pixel colors to 'off'
+  pixels.show();   // Send the updated pixel colors to the hardware.
+} ;
+
+
+
+// Funktion zur Anzeige Starrer Lichter
+void shiftout_light (int startpos, int bits, int color_red, int color_green, int color_blue)   // Parameter übernehmen
+{ for (int i = 0; i < bits; i++) {
+    pixels.setPixelColor(startpos + i, pixels.Color(color_red, color_green, color_blue));
+    pixels.show(); // This sends the updated pixel color to the hardware.
+  }
+}
+
+// Funktion zur Anzeige Stellenzaehler
+void shiftout_bits (int startpos, int bits, int value, int color_red, int color_green, int color_blue)   // Parameter übernehmen
+{ for (int i = 0; i < bits; i++) // Hauptschleifenzähler, Anzahl der auszugebenden Bits
+  { if (value > i) //Wert ist größer als Schleifenzähler
+    { 
+      #ifdef FIRE
+      color_red = random(cnt_rf_min, cnt_rf_max); // Feuerflackern
+      color_green = 30;
+      #endif
+      pixels.setPixelColor(startpos + i, pixels.Color(color_red, color_green, color_blue)); //send Bit out
+      //pixels.show(); // This sends the updated pixel color to the hardware.
+      //delay(delayval); // Delay for a period of time (in milliseconds).
+    }
+    else // Aktion bei Low Bit
+    { pixels.setPixelColor(startpos + i, pixels.Color(0, 0, 0)); //send Bit out
+      //pixels.show(); // This sends the updated pixel color to the hardware.
+      //delay(delayval); // Delay for a period of time (in milliseconds).
+    }
+  }
+  pixels.show();
+  return; // Funtion wieder verlassen
+}
+
+void pos_light(int startpos, int bits, int color_red, int color_green, int color_blue) //Anzeige der Positionsleuchten Blinkend
+{
+unsigned long currentMillis = millis(); // Aktuelle Zeit wird in currentMillis gespeichert
+
+  if (currentMillis - PosMillisP >= interval) { // Falls mehr als 1000 ms vergangen sind
+      shiftout_light (startpos, bits, color_red, color_green, color_blue);
+      digitalWrite(26, HIGH); 
+      digitalWrite(27, LOW); 
+  }
+  if (currentMillis - PosMillisP >= interval*2) { // Falls mehr als 1000 ms vergangen sind
+      shiftout_light (startpos, bits, 0, 0, 0);
+      digitalWrite(27, HIGH); 
+      digitalWrite(26, LOW);
+     PosMillisP = currentMillis;} // Zeitpunkt der letzten Schaltung wird festgehalten 
+    
+  pixels.show();   // Send the updated pixel colors to the hardware.
+}
+
+
+void show_out(int sec, int min, int hrs) //Ausgabe der Zeitanzeige zum Turm
+{
+  shiftout_light (0, 11, emptyR, emptyG, emptyB); // die ersten 11 Stellen Trenner in Gelb
+  
+  //sekunden Einerstelle ausgeben
+  tempNPX = sec % 10 ;
+  shiftout_bits(11, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  // Trennstelle ausgeben
+  shiftout_light(20, 1, spaceR, spaceG, spaceB); // einzelne Lampe
+  //sekunden Zehnerstelle ausgeben
+  tempNPX =  sec/ 10 ;
+  shiftout_bits(21, 5, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+
+  // Trennstellen ausgeben
+  shiftout_light(26, 2, spaceR, spaceG, spaceB); // einzelne
+
+  //minutenen Einerstelle ausgeben
+  tempNPX = min % 10 ;
+  shiftout_bits(28, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  // Trennstelle ausgeben
+  shiftout_light(37, 1, spaceR, spaceG, spaceB); // einzelne Lampe
+  //minuten Zehnerstelle ausgeben
+  tempNPX = min / 10 ;
+  shiftout_bits(38, 5, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+
+  // Trennstelle ausgeben
+  shiftout_light(43, 2, spaceR, spaceG, spaceB); // einzelne
+  //stunden Einerstelle ausgeben
+  tempNPX = hrs % 10 ;
+  shiftout_bits(45, 9, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  // Trennstelle ausgeben
+  shiftout_light(54, 1, spaceR, spaceG, spaceB); // einzelne Lampe
+  //stunden Zehnerstelle ausgeben
+  tempNPX = hrs / 10 ;
+  shiftout_bits(55, 2, tempNPX, countR, countG, countB); // Funktion Bitszählen und Muster ausgeben aufrufen
+  // Leere Stellen ausgeben
+  shiftout_light(57, 5, emptyR, emptyG, emptyB); // fuenf Trennstellen
+  shiftout_light(62,12,restR, restG, restB); // Resttaurantbeleuchtung
+  
+  pos_light (75,8,restR, restG, restB); 
+}
+
 
 void setup()
 {
   Serial.begin(115200);
+  npx_start(); // Start Routine für die Neopixel
+    shiftout_light(0, 2,spaceR, spaceG, spaceB); // zwei rote für start
+    delay(500); // wait a wihle
+  
   WiFiManager wm;
   bool res;
   res = wm.autoConnect(apSsid, apPwd); // password protected ap
@@ -11,17 +116,22 @@ void setup()
   {
     Serial.println("Failed to connect");
     // ESP.restart();
+    shiftout_light(2, 2,spaceR, spaceG, spaceB); // zwei rote für start
+    delay(500); // wait a wihle
   }
   else
   {
     // if you get here you have connected to the WiFi
     Serial.println("connected...yeey :)");
+    shiftout_light(0, 4,spaceR, spaceG, spaceB); // vier rote OK
+    delay(500); // wait a wihle
   }
 
   configTime(0, 0, NTP_SERVER);
   setenv("TZ", TZ_INFO, 1);
-
-  npx_start(); // Start Routine für die Neopixel
+  shiftout_light(0, 6,spaceR, spaceG, spaceB); // sechs rote für start fertig
+delay(1000); // wait a wihle
+  
 
   pinMode(26, OUTPUT); // Setzt den Digitalpin 26 als Outputpin
   pinMode(27, OUTPUT); // Setzt den Digitalpin 27 als Outputpin
