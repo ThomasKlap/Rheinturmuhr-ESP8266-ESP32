@@ -117,7 +117,7 @@ void show_out(int sec, int min, int hrs)
   // Restuarantbeleuchtung
   rest_light(62,18,restR, restG, restB); // Restaurantbeleuchtung
   
-  // pos_light (75,8,restR, restG, restB); 
+  pos_light (75,8,restR, restG, restB); 
 }
 
 
@@ -149,10 +149,10 @@ void setup()
   configTime(0, 0, NTP_SERVER);
   setenv("TZ", TZ_INFO, 1);
   shiftout_light(0, 6,spaceR, spaceG, spaceB); // sechs rote für start fertig
-delay(1000); // wait a wihle
+  delay(1000); // wait a wihle
   
 
-  pinMode(PosLedPin, OUTPUT); // Setzt den Digitalpin 3 als Outputpin
+  pinMode(PosLedPin, OUTPUT); // Setzt den Digitalpin als Outputpin
   
 }
 

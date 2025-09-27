@@ -47,7 +47,7 @@ int restG =10;
 int restB =10;
 
 #define NeoPixelPin   2// 
-#define PosLedPin     3
+#define PosLedPin     4 // GPIO  for Position LED 
 #define NUMPIXELS 86 // how many neopixels where attached
 
 unsigned long PosMillis = 0; // time counter for position lights with millis() function
