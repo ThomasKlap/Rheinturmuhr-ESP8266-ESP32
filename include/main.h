@@ -18,7 +18,7 @@ char wochentage[7][12] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerst
 String monat[12] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
 
 time_t now;
-tm tm;
+struct tm tm;
 
 /*Farbendefinitionen für die Ausgabe zu Turm
 Definition der Pixel:
@@ -47,6 +47,7 @@ int restG =10;
 int restB =10;
 
 #define NeoPixelPin   2// 
+#define PosLedPin     3
 #define NUMPIXELS 86 // how many neopixels where attached
 
 unsigned long PosMillis = 0; // time counter for position lights with millis() function

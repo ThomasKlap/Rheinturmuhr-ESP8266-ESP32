@@ -64,13 +64,13 @@ unsigned long currentMillis = millis(); // Aktuelle Zeit wird in currentMillis g
 
   if (currentMillis - PosMillis >= intervalPosMillis) { // Falls mehr als 1000 ms vergangen sind
       shiftout_light (startpos, bits, color_red, color_green, color_blue);
-      digitalWrite(26, HIGH); 
-      digitalWrite(27, LOW); 
+      digitalWrite(PosLedPin, HIGH); 
+      
   }
   if (currentMillis - PosMillis >= intervalPosMillis*2) { // Falls mehr als 1000 ms vergangen sind
       shiftout_light (startpos, bits, 0, 0, 0);
-      digitalWrite(27, HIGH); 
-      digitalWrite(26, LOW);
+      digitalWrite(PosLedPin, LOW); 
+      
      PosMillis = currentMillis;} // Zeitpunkt der letzten Schaltung wird festgehalten 
     
   pixels.show();   // Send the updated pixel colors to the hardware.
@@ -152,8 +152,8 @@ void setup()
 delay(1000); // wait a wihle
   
 
-  pinMode(26, OUTPUT); // Setzt den Digitalpin 26 als Outputpin
-  pinMode(27, OUTPUT); // Setzt den Digitalpin 27 als Outputpin
+  pinMode(PosLedPin, OUTPUT); // Setzt den Digitalpin 3 als Outputpin
+  
 }
 
 void loop()
